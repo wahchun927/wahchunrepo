@@ -1,0 +1,184 @@
+<html ng-app="app">
+<!- These type of lines are comments - They are ignored -!>
+
+<head>
+  <!- This is the HEADing section of the HTML file -!>
+  <!- The javascript functions are placed here -!>
+  <!- They are called from the BODY section -!>
+  
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.0.1/angular.js"></script>
+    <script language="javascript" type="text/javascript">
+      angular.module('app', []);
+      //Whatever you put on the controller scope,
+      //will be availalble in the HTML element bound to the controller.
+      function MyController($scope){
+        $scope.messages = [];
+        $scope.Math = window.Math;
+        
+        $scope.deck = ["A", 2, 3, 4, 5, 6, 7, 8, 9, 10, "J", "Q", "K", "A", 2, 3, 4, 5, 6, 7, 8, 9, 10, "J", "Q", "K", "A", 2, 3, 4, 5, 6, 7, 8, 9, 10, "J", "Q", "K", "A", 2, 3, 4, 5, 6, 7, 8, 9, 10, "J", "Q", "K"];
+        $scope.select = 0;
+        $scope.card = "";
+        
+        $scope.yourCount = 0;
+        $scope.yourHand = [];
+        $scope.yourScore = 0;
+        
+        $scope.dealerCount = 0;          
+        $scope.dealerHand = [];
+        $scope.dealerScore = 0;
+        
+        $scope.startgame = function() {
+          $scope.deck = ["A", 2, 3, 4, 5, 6, 7, 8, 9, 10, "J", "Q", "K", "A", 2, 3, 4, 5, 6, 7, 8, 9, 10, "J", "Q", "K", "A", 2, 3, 4, 5, 6, 7, 8, 9, 10, "J", "Q", "K", "A", 2, 3, 4, 5, 6, 7, 8, 9, 10, "J", "Q", "K"];
+          $scope.yourHand = [];
+          $scope.dealerHand = [];
+          
+          $scope.select = Math.floor(Math.random() * $scope.deck.length);
+          $scope.card = $scope.deck[$scope.select];
+          $scope.deck.splice($scope.select, 1);
+          $scope.yourHand.push($scope.card);
+          
+          $scope.select = Math.floor(Math.random() * $scope.deck.length);
+          $scope.card = $scope.deck[$scope.select];
+          $scope.deck.splice($scope.select, 1);
+          $scope.dealerHand.push($scope.card);
+          
+          $scope.select = Math.floor(Math.random() * $scope.deck.length);
+          $scope.card = $scope.deck[$scope.select];
+          $scope.deck.splice($scope.select, 1);
+          $scope.yourHand.push($scope.card);
+          
+          $scope.select = Math.floor(Math.random() * $scope.deck.length);
+          $scope.card = $scope.deck[$scope.select];
+          $scope.deck.splice($scope.select, 1);
+          $scope.dealerHand.push($scope.card);
+          
+          $scope.scoring();
+        }
+        
+        $scope.draw = function() {
+          $scope.select = Math.floor(Math.random() * $scope.deck.length);
+          $scope.card = $scope.deck[$scope.select];
+          $scope.deck.splice($scope.select, 1);
+          $scope.yourHand.push($scope.card);
+          
+          $scope.scoring();
+        }
+        
+        $scope.scoring = function() {
+          $scope.yourCount = 0;
+          for (yourcard in $scope.yourHand) {
+            if (yourcard === "J" || yourcard === "Q" || yourcard === "K") {
+              $scope.yourCount = $scope.yourCount + 10;
+            }
+            else if (yourcard === "A") {
+              if ($scope.yourCount <= 10) {
+                $scope.yourCount = $scope.yourCount + 11;
+              }
+              else {
+                $scope.yourCount = $scope.yourCount + 1;
+              }
+            }
+            else {
+              $scope.yourCount = $scope.yourCount + yourcard;
+            }
+          }
+          $scope.dealerCount = 0;
+          for (dealercard in $scope.dealerHand) {
+            if (dealercard === "J" || dealercard === "Q" || dealercard === "K") {
+              $scope.dealerCount += 10;
+            }
+            else if (dealercard === "A") {
+              if ($scope.dealerCount <= 10) {
+                $scope.dealerCount = $scope.dealerCount + 11;
+              }
+              else {
+                $scope.dealerCount = $scope.dealerCount + 1;
+              }
+            }
+            else {
+              $scope.dealerCount = $scope.dealerCount + dealercard;
+            }
+          }
+          if ($scope.yourCount === 21 && $scope.yourHand.length <= 2) {
+            alert("Blackjack! You Win!");
+          } else if ($scope.yourCount > 21) {
+            alert("Bust! You Lose!");
+          }
+          if ($scope.dealerCount === 21 && $scope.dealerHand.length <= 2) {
+            alert("Blackjack! You Win!");
+          } else if ($scope.dealerCount > 21) {
+            alert("Bust! You Lose!");
+          }
+        }
+      
+        $scope.signName = function(){
+          $scope.messages.push({"msg": $scope.newMessage, "name": $scope.newName});
+          
+        }
+      }
+    </script>
+  <title>Cloud-sino</title>
+  <style type="text/css">
+    #wise-confucius{
+      width: 600px;
+      height: 350px;
+      background: url("http://cloud-casino.net/_assets/images/content/logo-cloud-casino.png") center no-repeat;
+      position: relative;
+      margin: 10px auto;
+      font-family: 'Impact';
+      color: white;
+      font-size: 2.8em;
+    }
+    #confucius-top, #confucius-bottom{
+      width: 100%;
+      position: absolute;
+      text-shadow: -1px -1px 0 #000,  
+                    1px -1px 0 #000,
+                   -1px 1px 0 #000,
+                    1px 1px 0 #000;
+      text-align: center;
+    }
+    #confucius-bottom{
+      bottom: 0; 
+    }
+  </style>
+</head>
+  
+<body ng-controller="MyController" bgcolor="grey">
+  <!- This is the BODY section of the HTML file -!>
+  <!- Whatever is below here wil be displayed in the browser window -!>
+  <!- {{select}} ->
+  <!- {{card}} ->
+  <!- {{deck.length}} ->
+
+  <CENTER> 
+  <H2>Cloud-sino</H2>
+  <p>
+  <font size=2>
+  <b>One of the many Cloud products proudly brought to you by the Cloud-Wash Consultancy (CWC).</b>
+  </font>
+  </p>
+  <div id="wise-confucius">
+    <div id="confucius-top">CWC Say</div>
+    <div id="confucius-bottom">The Place Where You WIN IT ALL!!</div>
+  </div> <hr/>
+    <input type="button" ng-click="startgame()" value="Start Game!"/>
+    <input type="button" ng-click="draw()" value="Draw another card!"/>
+    <br>
+    Your Hand: {{yourHand}} ({{yourCount}})    
+    <br/>
+    Dealer Hand: {{dealerHand}} ({{dealerCount}})
+    <hr/>
+    Guestbook<br>     
+    <input type="text" ng-model="newName">
+    <input type="text" ng-model="newMessage">
+    <input type="submit" ng-click="signName()" value="Sign my name">
+    <br>
+    Guests: <br>
+    <ul>
+      <li ng-repeat="message in messages">
+        {{message.msg}} : {{message.name}}
+      </li>
+    </ul>
+  </body>
+</html>
